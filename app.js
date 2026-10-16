@@ -200,6 +200,8 @@ function findTeamColorHex(teamName, fallbackColorValue) {
 
 function getTeamColorDot(teamName, fallbackColorValue, isTbd = false) {
   if (isTbd) return "🏀";
+  const str = String(teamName || "").toLowerCase();
+  if (!teamName || str.includes("vincente") || str.includes("perdente") || str === "tbd") return "🏀";
   const hex = findTeamColorHex(teamName, fallbackColorValue).toUpperCase();
   if (hex === "#EAB308") return "🟡";
   if (hex === "#EF4444") return "🔴";
@@ -564,7 +566,7 @@ function buildKnockoutCard(info) {
       </div>
       ${sched.locationName ? `<div class="match-location-sub">📍 ${sched.locationName}</div>` : ""}
     `;
-    card.onclick = () => openScheduledMatchModal(sched);
+    card.onclick = () => openScheduledMatchModal({ ...slot, homeName, awayName });
   }
   return card;
 }
