@@ -564,7 +564,6 @@ function buildKnockoutCard(info) {
         <div class="match-center-score"><span class="score-dash">- : -</span></div>
         <div class="match-team-away ${isAwayTbd ? 'tbd-team' : ''}">${awayName}</div>
       </div>
-      ${sched.locationName ? `<div class="match-location-sub">📍 ${sched.locationName}</div>` : ""}
     `;
     card.onclick = () => openScheduledMatchModal({ ...slot, homeName, awayName });
   }
