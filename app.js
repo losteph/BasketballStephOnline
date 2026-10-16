@@ -9,9 +9,9 @@ let teamsData = [];
 let playersData = [];
 
 const GRADE_VALUES = {
-  "A+": 95, "A": 90, "A-": 85,
-  "B+": 80, "B": 75, "B-": 70,
-  "C+": 65, "C": 60, "C-": 55
+  "A+": 99, "A": 92, "A-": 86,
+  "B+": 82, "B": 77, "B-": 73,
+  "C+": 66, "C": 62, "C-": 55
 };
 
 const ROLE_WEIGHTS = {
@@ -257,14 +257,14 @@ function calculateMatchRatings(m) {
       if (teamWon) score += 0.2;
       else if (teamLost) score -= 0.1;
 
-      score += (pts3 * 0.4);
+      score += (pts3 * 0.5);
       score += (pts2 * 0.3);
       score += (pts1 * 0.1);
       score += (assists * 0.2);
       score += (rebounds * 0.2);
-      score += (goodPlays * 0.3);
+      score += (goodPlays * 0.1);
       score -= (turnovers * 0.2);
-      score -= (fouls * 0.3);
+      score -= (fouls * 0.4);
 
       score = Math.min(9.9, Math.max(1.0, score));
       ratings[playerId] = Number(score.toFixed(1));
