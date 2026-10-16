@@ -430,6 +430,7 @@ function buildMatchCard(sched, matchObj) {
       </div>
       ${sched.locationName ? `<div class="match-location-sub">📍 ${sched.locationName}</div>` : ""}
     `;
+    card.onclick = () => openScheduledMatchModal(sched);
   }
   return card;
 }
@@ -561,7 +562,9 @@ function buildKnockoutCard(info) {
         <div class="match-center-score"><span class="score-dash">- : -</span></div>
         <div class="match-team-away ${isAwayTbd ? 'tbd-team' : ''}">${awayName}</div>
       </div>
+      ${sched.locationName ? `<div class="match-location-sub">📍 ${sched.locationName}</div>` : ""}
     `;
+    card.onclick = () => openScheduledMatchModal(sched);
   }
   return card;
 }
@@ -695,6 +698,56 @@ function renderTeams() {
 
     container.appendChild(acc);
   });
+}
+
+function openScheduledMatchModal(sched) {
+  document.getElementById("modal-match-meta").innerText = `PROGRAMMA PARTITA`;
+  const homeName = sched.homeName || "TBD";
+  const awayName = sched.awayName || "TBD";
+  const homeDot = getTeamColorDot(homeName, null, !sched.homeName);
+  const awayDot = getTeamColorDot(awayName, null, !sched.awayName);
+
+  document.getElementById("modal-score-box").innerHTML = `
+    <div class="match-score-row">
+      <div class="match-team-home">${homeName} ${homeDot}</div>
+      <div class="match-center-score"><span class="score-dash">- : -</span></div>
+      <div class="match-team-away">${awayDot} ${awayName}</div>
+    </div>
+  `;
+
+  let infoHtml = `
+    <div style="text-align:center; padding: 20px 10px;">
+      <div style="font-size: 32px; margin-bottom: 8px;">⏳</div>
+      <h3 style="color: var(--orange); font-size: 16px; font-weight: 900; margin-bottom: 6px;">
+        PARTITA ANCORA DA DISPUTARE
+      </h3>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">
+        🗓️ Data: <strong>${sched.scheduledDate || "Data e orario da definire"}</strong>
+      </p>
+  `;
+
+  if (sched.locationName) {
+    infoHtml += `
+      <div style="background: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; margin-top: 10px;">
+        <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">LUOGO DELLA PARTITA</div>
+        <div style="font-size: 14px; font-weight: 800; color: #FFFFFF;">📍 ${sched.locationName}</div>
+        ${sched.mapsUrl ? `
+          <a href="${sched.mapsUrl}" target="_blank" rel="noopener noreferrer" 
+             style="display: inline-block; margin-top: 10px; background: var(--orange); color: #fff; text-decoration: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px;">
+            Apri su Google Maps ↗
+          </a>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  infoHtml += `</div>`;
+
+  const schedView = document.getElementById("modal-scheduled-view");
+  schedView.innerHTML = infoHtml;
+  schedView.style.display = "block";
+  document.getElementById("modal-played-view").style.display = "none";
+  document.getElementById("match-modal").style.display = "flex";
 }
 
 // Modali Partita e Atleta
