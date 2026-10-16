@@ -98,7 +98,7 @@ function switchTournament(tId) {
     p.classList.toggle("active", p.innerText === activeTournament.name);
   });
 
-  document.getElementById("tournament-title").innerText = activeTournament.name;
+  // document.getElementById("tournament-title").innerText = activeTournament.name;
 
   // Ricostruisce le schede in base alla modalità (Gironi o Knockout)
   setupNavigationTabs(activeTournament.type === "knockout");
